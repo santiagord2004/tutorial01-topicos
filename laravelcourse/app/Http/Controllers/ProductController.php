@@ -55,17 +55,33 @@ class ProductController extends Controller
         $product = ProductController::$products[$id -1];
         $viewData = [];
         $viewData["title"] = $product["name"]." - Online Store";
-
         $viewData["subtitle"] = $product["name"]." - Product information";
-        
         $viewData["price"] = $product["price"]; 
-
         $viewData["product"] = $product;
-
-    
 
         return view('product.show')->with("viewData", $viewData);
 
     }
 
+    public function create(): View
+
+    {
+        $viewData = []; //to be sent to the view
+        $viewData["title"] = "Create product";
+        return view('product.create')->with("viewData",$viewData);
+    }
+
+
+    public function save(Request $request)
+
+    {
+        $request->validate([
+        "name" => "required",
+        "price" => "required|numeric|min:0.01"
+        ]);
+        
+ 
+        //here will be the code to call the model and save it to the database
+        return view('product.save');
+    }
 }
